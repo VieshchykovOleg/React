@@ -1,0 +1,1 @@
+The application is designed for 1 laboratory work on component-oriented programming
