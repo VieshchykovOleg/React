@@ -1,0 +1,28 @@
+.card {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 50px;
+    transition: transform 0.3s ease, opacity 1s ease;
+    box-shadow: 0 1px 3px black;
+}
+
+.card.flipped {
+    background-color: rgb(86, 19, 19);
+}
+
+.card.matched {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.card-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
