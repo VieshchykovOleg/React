@@ -35,7 +35,36 @@ function GameBoard() {
         setCards(newCards);
         setFlippedCards([...flippedCards, id]);
     };
+    // Хук для обробки перевернутіх карток
+    useEffect(() => {
+        if (flippedCards.length === 2) {
+            const [firstId, secondId] = flippedCards;
+            const firstCard = cards.find((card) => card.id === firstId);
+            const secondCard = cards.find((card) => card.id === secondId);
 
+            // Перевірка на збіг
+            if (firstCard.value === secondCard.value) {
+                setTimeout(() => {
+                    const newCards = cards.map((card) =>
+                        card.id === firstId || card.id === secondId
+                            ? { ...card, isMatched: true }
+                            : card
+                    );
+                    setCards(newCards);
+                    setFlippedCards([]);
+                }, 1000);
+            } else {
+                // Якщо не співпадають перевертаємо назад
+                setTimeout(() => {
+                    const newCards = cards.map((card) =>
+                        !card.isMatched ? { ...card, isFlipped: false } : card
+                    );
+                    setCards(newCards);
+                    setFlippedCards([]);
+                }, 1000);
+            }
+        }
+    }, [flippedCards, cards]);
 
 
 export default GameBoard;
