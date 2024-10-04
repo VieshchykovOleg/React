@@ -65,6 +65,30 @@ function GameBoard() {
             }
         }
     }, [flippedCards, cards]);
+    useEffect(() => {
+        const unmatchedCards = cards.filter((card) => !card.isMatched);
+        if (unmatchedCards.length === 0) {
+            setTimeout(() => {
+                setGameWon(true);
+            }, 1000);
+        }
+    }, [cards]);
 
+    return (
+        <div className="game-board">
+            {/* Відображення карток */}
+            {cards.map((card) => (
+                <Card
+                    key={card.id}
+                    card={card}
+                    onCardClick={handleCardClick}
+                    isFlipped={card.isFlipped}
+                    isMatched={card.isMatched}
+                />
+            ))}
+            {gameWon && <h2>Congratulation!!!</h2>}
+        </div>
+    );
+}
 
 export default GameBoard;
