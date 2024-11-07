@@ -1,38 +1,103 @@
-body {
+
+.booking-container {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f5f5f5;
-}
-
-h1 {
     color: #333;
-}
-
-form {
-    background-color: white;
+    max-width: 800px;
+    margin: auto;
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-input {
-    width: 100%;
+.booking-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.trip-type label {
+    font-size: 16px;
+    margin-right: 15px;
+}
+
+.trip-type input[type="radio"] {
+    margin-right: 5px;
+}
+
+.selectors select {
+    margin-right: 10px;
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+
+.flight-row {
+    display: flex;
+    align-items: center;
+    border: 2px solid #ffaa00;
     padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
+    margin-top: 10px;
+    gap: 10px;
 }
 
-button {
+.flight-row input[type="text"],
+.flight-row input[type="date"] {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 90%;
+}
+
+.flight-row label {
+    font-size: 14px;
+    color: #555;
+}
+
+.flight-row p {
+    color: red;
+    font-size: 12px;
+    margin: 5px 0 0 0;
+}
+
+.remove-flight-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #ff0000;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.remove-flight-btn:hover {
+    color: #d00000;
+}
+
+.add-flight-btn {
+    background-color: transparent;
+    color: #007bff;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.add-flight-btn:hover {
+    text-decoration: underline;
+}
+
+.submit-btn {
     background-color: #007bff;
-    color: white;
-    padding: 10px;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 20px;
 }
 
-button:hover {
+.submit-btn:hover {
     background-color: #0056b3;
 }

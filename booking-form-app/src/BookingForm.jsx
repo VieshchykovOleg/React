@@ -1,82 +1,113 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import './App.css';
 
+// Validation schema
 const schema = yup.object().shape({
-    destination: yup
-        .string()
-        .required('Вкажіть місце призначення')
-        .min(3, 'Місце призначення має містити не менше 3 символів'),
-    destinationTo: yup
-        .string()
-        .required('Вкажіть місце прибуття')
-        .min(3, 'Місце прибуття має містити не менше 3 символів'),
-    departureDate: yup
-        .date()
-        .required('Вкажіть дату відправлення')
-        .min(new Date(), 'Дата відправлення не може бути в минулому'),
-    returnDate: yup
-        .date()
-        .required('Вкажіть дату повернення')
-        .min(yup.ref('departureDate'), 'Дата повернення не може бути раніше дати відправлення'),
-    passengers: yup
-        .number()
-        .min(1, 'Потрібен хоча б один пасажир')
-        .required('Вкажіть кількість пасажирів')
-        .integer('Кількість пасажирів має бути цілим числом')
-        .positive('Кількість пасажирів має бути позитивним числом'),
+    flights: yup.array().of(
+        yup.object().shape({
+            origin: yup.string().required('Вкажіть місце відправлення'),
+            destination: yup.string().required('Вкажіть місце призначення'),
+            departureDate: yup.date().required('Вкажіть дату відправлення'),
+        })
+    ),
 });
 
 const BookingForm = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, control, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
+        defaultValues: {
+            flights: [{ id: 1, origin: '', destination: '', departureDate: '' }],
+        },
     });
-
-    const [successMessage, setSuccessMessage] = useState('');
+    const [flights, setFlights] = useState([{ id: 1 }]);
+    const [tripType, setTripType] = useState('round-trip');
+    const [classType, setClassType] = useState('economy');
 
     const onSubmit = (data) => {
-        console.log(data);
-        setSuccessMessage('Форма успішно надіслана!');
+        console.log(data); // Replace with your actual submit logic
+        alert('Форма успішно надіслана!');
+    };
+
+    const addFlight = () => {
+        setFlights([...flights, { id: Date.now() }]);
+    };
+    const removeFlight = (id) => {
+        setFlights(flights.filter(flight => flight.id !== id));
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-                <label>Який ваш Аеропорт?</label>
-                <input type="text" {...register('destination')} />
-                <p>{errors.destination?.message}</p>
-            </div>
+        <div className="booking-container">
+            <h2>Порівняйте і бронюйте перельоти з легкістю</h2>
+            <form onSubmit={handleSubmit(onSubmit)}>
 
-            <div>
-                <label>Куди плануєте?</label>
-                <input type="text" {...register('destinationTo')} />
-                <p>{errors.destinationTo?.message}</p>
-            </div>
+                {/* Trip Type Options */}
+                <div className="trip-type">
+                    <label>
+                        <input type="radio" name="tripType" value="round-trip" checked={tripType === 'round-trip'} onChange={() => setTripType('round-trip')} />
+                        В обидва кінці
+                    </label>
+                    <label>
+                        <input type="radio" name="tripType" value="one-way" checked={tripType === 'one-way'} onChange={() => setTripType('one-way')} />
+                        В один кінець
+                    </label>
+                    <label>
+                        <input type="radio" name="tripType" value="multi-city" checked={tripType === 'multi-city'} onChange={() => setTripType('multi-city')} />
+                        Складний маршрут
+                    </label>
+                </div>
 
-            <div>
-                <label>Дата відправлення</label>
-                <input type="date" {...register('departureDate')} />
-                <p>{errors.departureDate?.message}</p>
-            </div>
+                <div className="selectors">
+                    <select value={classType} onChange={(e) => setClassType(e.target.value)}>
+                        <option value="economy">Економ</option>
+                        <option value="business">Бізнес</option>
+                        <option value="first">Перший клас</option>
+                    </select>
+                    <select>
+                        <option value="1">1 дорослий</option>
+                        <option value="2">2 дорослих</option>
+                        <option value="3">3 дорослих</option>
+                    </select>
+                </div>
 
-            <div>
-                <label>Дата повернення</label>
-                <input type="date" {...register('returnDate')} />
-                <p>{errors.returnDate?.message}</p>
-            </div>
-
-            <div>
-                <label>Кількість пасажирів</label>
-                <input type="number" {...register('passengers')} />
-                <p>{errors.passengers?.message}</p>
-            </div>
-
-            <button type="submit">Надіслати</button>
-
-            {successMessage && <p>{successMessage}</p>} 
-        </form>
+                {/* Flight Rows */}
+                {flights.map((flight, index) => (
+                    <div key={flight.id} className="flight-row">
+                        <div>
+                            <label>Звідки?</label>
+                            <input type="text" {...register(`flights[${index}].origin`)} placeholder="Вкажіть місце відправлення" />
+                            <p>{errors?.flights?.[index]?.origin?.message}</p>
+                        </div>
+                        <div>
+                            <label>Куди?</label>
+                            <input type="text" {...register(`flights[${index}].destination`)} placeholder="Вкажіть місце призначення" />
+                            <p>{errors?.flights?.[index]?.destination?.message}</p>
+                        </div>
+                        <div>
+                            <label>Дата відправлення</label>
+                            <input type="date" {...register(`flights[${index}].departureDate`)} />
+                            <p>{errors?.flights?.[index]?.departureDate?.message}</p>
+                        </div>
+                        {tripType === 'round-trip' && (
+                            <div>
+                                <label>Дата повернення</label>
+                                <input type="date" {...register(`flights[${index}].returnDate`)} />
+                                <p>{errors?.flights?.[index]?.returnDate?.message}</p>
+                            </div>
+                        )}
+                        {index > 0 && (
+                            <button type="button" onClick={() => removeFlight(flight.id)} className="remove-flight-btn">×</button>
+                        )}
+                    </div>
+                ))}
+                {tripType === 'multi-city' && (
+                    <button type="button" onClick={addFlight} className="add-flight-btn">Додати рейс</button>
+                )}
+                <button type="submit" className="submit-btn">Шукати</button>
+            </form>
+        </div>
     );
 };
 
