@@ -1,0 +1,41 @@
+li {
+    display: inline;
+    margin-right: 20px;
+}
+
+a {
+    color: green;
+    font-size: 50px;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a:hover {
+    background-color: green;
+    color: white;
+}
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+    background: #7d85c0;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.popup button {
+    margin: 5px;
+}
