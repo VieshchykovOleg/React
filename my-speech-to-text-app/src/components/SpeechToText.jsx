@@ -1,5 +1,5 @@
 import React from 'react';
-import useCustomSpeechRecognition from './useCustomSpeechRecognition.jsx';
+import useCustomSpeechRecognition from '../hooks/useCustomSpeechRecognition.jsx';
 
 function SpeechToText(){
     const { text, listen, listening, stop } = useCustomSpeechRecognition();
