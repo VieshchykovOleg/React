@@ -1,6 +1,5 @@
 import React, { createContext, useState } from 'react';
 
-// Створюємо контекст
 const GameContext = createContext();
 
 export const GameProvider = ({ children }) => {
@@ -17,18 +16,19 @@ export const GameProvider = ({ children }) => {
         { id: 10, value: '🥝', isFlipped: false, isMatched: false },
         { id: 11, value: '🍉', isFlipped: false, isMatched: false },
         { id: 12, value: '🍉', isFlipped: false, isMatched: false },
-    ].sort(() => Math.random() - 0.5));
+    ].sort(() => Math.random() - 0.5));  // Перемішуємо картки при ініціалізації
 
-    const [flippedCards, setFlippedCards] = useState([]);
-    const [gameWon, setGameWon] = useState(false);
-
+    const [flippedCards, setFlippedCards] = useState([]);  // Зберігаємо перевернуті картки
+    const [gameWon, setGameWon] = useState(false);  // Статус виграшу
+    
     const flipCard = (id) => {
-        if (flippedCards.length === 2 || flippedCards.includes(id)) return;
+        if (flippedCards.length === 2 || flippedCards.includes(id)) return; // Перевірка на максимальну кількість перевернутих карток
 
+        // Перевертаємо картку за її id
         const newCards = cards.map((card) =>
             card.id === id ? { ...card, isFlipped: true } : card
         );
-        setCards(newCards);
+        setCards(newCards);  // Оновлюємо карти
         setFlippedCards([...flippedCards, id]);
     };
 
@@ -41,7 +41,7 @@ export const GameProvider = ({ children }) => {
         setGameWon,
     };
 
-    return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
+    return <GameContext.Provider value={value}>{children}</GameContext.Provider>;  // Обгортка дочірніх компонентів
 };
 
 export default GameContext;

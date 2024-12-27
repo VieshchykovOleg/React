@@ -1,13 +1,19 @@
-import React, { useContext } from 'react';
-import Card from './Card';
-import GameContext from '../context/GameContext';
+import React, { useContext, useEffect } from 'react';
+import Card from '../Card/Card';
+import GameContext from '../../context/GameContext';
+import useMatchCheck from '../../hooks/useMatchCheck';
 import './GameBoard.css';
 
-const GameBoard = () => {
-    const { cards, flipCard, gameWon } = useContext(GameContext);
+function GameBoard() {
+    // Отримуємо з контексту дані про карти, функції для перевертання карток та статус гри
+    const { cards, flipCard, gameWon, setCards, setFlippedCards, setGameWon } = useContext(GameContext);
+
+    // Використовуємо кастомний хук для перевірки збігів карток
+    useMatchCheck(cards, setCards, setFlippedCards, setGameWon);
 
     return (
         <div className="game-board">
+            {/* Відображення карток */}
             {cards.map((card) => (
                 <Card
                     key={card.id}
@@ -17,9 +23,9 @@ const GameBoard = () => {
                     isMatched={card.isMatched}
                 />
             ))}
-            {gameWon && <h2>Congratulations! You've won!</h2>}
+            {gameWon && <h2>Congratulation!!!</h2>}  {/* Показуємо повідомлення про перемогу */}
         </div>
     );
-};
+}
 
 export default GameBoard;
