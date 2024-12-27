@@ -1,14 +1,11 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Card from '../Card/Card';
 import GameContext from '../../context/GameContext';
 import useMatchCheck from '../../hooks/useMatchCheck';
 import './GameBoard.css';
-
+import '../../components/Card/Card.module.css';
 function GameBoard() {
-    // Отримуємо з контексту дані про карти, функції для перевертання карток та статус гри
     const { cards, flipCard, gameWon, setCards, setFlippedCards, setGameWon } = useContext(GameContext);
-
-    // Використовуємо кастомний хук для перевірки збігів карток
     useMatchCheck(cards, setCards, setFlippedCards, setGameWon);
 
     return (

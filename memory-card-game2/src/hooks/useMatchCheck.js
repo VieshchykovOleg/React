@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 const useMatchCheck = (cards, flippedCards, setCards, setFlippedCards, setGameWon) => {
     useEffect(() => {
@@ -28,6 +28,7 @@ const useMatchCheck = (cards, flippedCards, setCards, setFlippedCards, setGameWo
             }
         }
     }, [flippedCards, cards, setCards, setFlippedCards]);
+
 
     useEffect(() => {
         const unmatchedCards = cards.filter((card) => !card.isMatched);

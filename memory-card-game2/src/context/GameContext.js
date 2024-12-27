@@ -20,17 +20,39 @@ export const GameProvider = ({ children }) => {
 
     const [flippedCards, setFlippedCards] = useState([]);  // Зберігаємо перевернуті картки
     const [gameWon, setGameWon] = useState(false);  // Статус виграшу
-    
-    const flipCard = (id) => {
-        if (flippedCards.length === 2 || flippedCards.includes(id)) return; // Перевірка на максимальну кількість перевернутих карток
 
-        // Перевертаємо картку за її id
+    const flipCard = (id) => {
+        if (flippedCards.length === 2 || flippedCards.includes(id)) return;
+
         const newCards = cards.map((card) =>
             card.id === id ? { ...card, isFlipped: true } : card
         );
-        setCards(newCards);  // Оновлюємо карти
+        setCards(newCards);
         setFlippedCards([...flippedCards, id]);
     };
+    if (flippedCards.length === 2) {
+        const [firstId, secondId] = flippedCards;
+        const firstCard = cards.find((card) => card.id === firstId);
+        const secondCard = cards.find((card) => card.id === secondId);
+
+        if (firstCard.value === secondCard.value) {
+            // Якщо картки співпали, відзначаємо їх як підібрані
+            const newCards = cards.map((card) =>
+                card.id === firstId || card.id === secondId
+                    ? { ...card, isMatched: true }
+                    : card
+            );
+            setCards(newCards);
+        } else {
+            setTimeout(() => {
+                const newCards = cards.map((card) =>
+                    !card.isMatched ? { ...card, isFlipped: false } : card
+                );
+                setCards(newCards);
+            }, 1000);
+        }
+        setFlippedCards([]);
+    }
 
     const value = {
         cards,
