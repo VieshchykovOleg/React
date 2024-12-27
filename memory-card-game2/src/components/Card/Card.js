@@ -1,5 +1,5 @@
 import React from 'react';
-import './Card.css';
+import './Card.module.css';
 import PropTypes from 'prop-types';
 import CardContent from './CardContent';
 function Card({ card, onCardClick, isFlipped, isMatched }) {
