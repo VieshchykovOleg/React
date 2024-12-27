@@ -12,7 +12,7 @@ const TaskInput = () => {
                 ...oldTasks,
                 { id: Date.now(), text: task, isCompleted: false },
             ]);
-            setTask(""); // Очистити поле вводу
+            setTask("");
         }
     };
 
